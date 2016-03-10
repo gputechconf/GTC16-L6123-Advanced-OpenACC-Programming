@@ -1,0 +1,11 @@
+core
+a.out
+*.o
+*.mod
+*.a
+*.lst
+*.ptx
+*.cubin
+*.s
+.*.sw*
+laplace2d

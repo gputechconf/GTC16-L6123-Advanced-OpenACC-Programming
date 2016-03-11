@@ -9,3 +9,7 @@ a.out
 *.s
 .*.sw*
 laplace2d
+laplace2d.solution
+*.x
+*.png
+*.pgm

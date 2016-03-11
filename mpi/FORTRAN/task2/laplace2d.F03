@@ -86,20 +86,16 @@ PROGRAM laplace2d
                 error = MAX( error, ABS( a_new(i,j) - a(i,j) ) )
             END DO
         END DO
-        !$acc end kernels
         !TODO: Calculate global error across all ranks
         !call MPI_ALLREDUCE(SENDBUF, RECVBUF, COUNT, DATATYPE, OP, COMM, IERROR)
         
-        !$acc kernels
         DO j = jstart, jend
             DO i = 2, n-1
                 a(i,j) = a_new(i,j)
             END DO
         END DO
-        !$acc end kernels
         
         !TODO: Handle periodic boundary conditions and halo exchange with MPI
-        !$acc kernels
         DO i = 2, n-1
             a(i,1) = a(i,m-1)
             a(i,m) = a(i,2)

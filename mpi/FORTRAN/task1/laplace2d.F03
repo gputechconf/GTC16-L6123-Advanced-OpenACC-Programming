@@ -86,18 +86,14 @@ PROGRAM laplace2d
                 error = MAX( error, ABS( a_new(i,j) - a(i,j) ) )
             END DO
         END DO
-        !$acc end kernels
         
-        !$acc kernels
         DO j = jstart, jend
             DO i = 2, n-1
                 a(i,j) = a_new(i,j)
             END DO
         END DO
-        !$acc end kernels
         
         !Periodic boundary conditions
-        !$acc kernels
         DO i = 2, n-1
             a(i,1) = a(i,m-1)
             a(i,m) = a(i,2)

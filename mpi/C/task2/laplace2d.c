@@ -104,21 +104,22 @@ int main(int argc, char** argv)
         //MPI_Allreduce(const void *sendbuf, void *recvbuf, int count, MPI_Datatype datatype, MPI_Op op, MPI_COMM_WORLD);
         
         #pragma acc kernels
-        for (int j = jstart; j < jend; j++)
         {
+            for (int j = jstart; j < jend; j++)
+            {
+                for( int i = 1; i < M-1; i++ )
+                {
+                    A[j][i] = Anew[j][i];
+                }
+            }
+
+            //Periodic boundary conditions
+            //TODO: Handle periodic boundary conditions and halo exchange with MPI
             for( int i = 1; i < M-1; i++ )
             {
-                A[j][i] = Anew[j][i];
+                    A[0][i]     = A[(N-2)][i];
+                    A[(N-1)][i] = A[1][i];
             }
-        }
-
-        //Periodic boundary conditions
-        //TODO: Handle periodic boundary conditions and halo exchange with MPI
-        #pragma acc kernels
-        for( int i = 1; i < M-1; i++ )
-        {
-                A[0][i]     = A[(N-2)][i];
-                A[(N-1)][i] = A[1][i];
         }
         int top    = (rank == 0) ? (size-1) : rank-1;
         int bottom = (rank == (size-1)) ? 0 : rank+1;

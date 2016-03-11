@@ -91,6 +91,7 @@ int main(int argc, char** argv)
         error = 0.f;
 
         #pragma acc kernels
+        {
         for (int j = jstart; j < jend; j++)
         {
             for( int i = 1; i < M-1; i++ )
@@ -101,7 +102,6 @@ int main(int argc, char** argv)
             }
         }
         
-        #pragma acc kernels
         for (int j = jstart; j < jend; j++)
         {
             for( int i = 1; i < M-1; i++ )
@@ -111,11 +111,11 @@ int main(int argc, char** argv)
         }
 
         //Periodic boundary conditions
-        #pragma acc kernels
         for( int i = 1; i < M-1; i++ )
         {
                 A[0][i]     = A[(N-2)][i];
                 A[(N-1)][i] = A[1][i];
+        }
         }
         
         if(rank == 0 && (iter % 100) == 0) printf("%5d, %0.6f\n", iter, error);

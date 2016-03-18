@@ -1,22 +1,32 @@
 program mandelbrot_main
 use mandelbrot_mod
+use openacc
 implicit none
-integer, parameter   :: NUM_BLOCKS=8
-integer(1) :: image(HEIGHT, WIDTH)
-integer :: iy, ix
-integer :: block, block_size, block_start
-integer :: starty, endy
-real :: startt, stopt
+integer      :: num_blocks
+integer(1)   :: image(HEIGHT, WIDTH)
+integer      :: iy, ix
+integer      :: block, block_size, block_start
+integer      :: starty, endy
+real         :: startt, stopt
+character(8) :: arg
 
-block_size = (HEIGHT*WIDTH)/NUM_BLOCKS
+call acc_init(acc_device_nvidia)
+
+call getarg(1, arg)
+num_blocks = 8
+if ( arg /= '' ) then
+  read(arg, '(I10)') num_blocks
+endif
+print *,'num_blocks',num_blocks
+block_size = (HEIGHT*WIDTH)/num_blocks
 
 image = 0
 
 call cpu_time(startt)
 !$acc data create(image(HEIGHT,WIDTH))
 do block=0,(num_blocks-1)
-  starty = block  * (WIDTH/NUM_BLOCKS) + 1
-  endy   = min(starty + (WIDTH/NUM_BLOCKS), WIDTH)
+  starty = block  * (WIDTH/num_blocks) + 1
+  endy   = min(starty + (WIDTH/num_blocks), WIDTH)
   !$acc parallel loop async(mod(block,2))
   do iy=starty,endy
     do ix=1,HEIGHT

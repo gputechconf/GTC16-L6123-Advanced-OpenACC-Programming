@@ -27,6 +27,7 @@ void laplace2d_serial( int rank, int iter_max, float tol )
         error = 0.f;
 
 #pragma acc kernels
+{
         for( int j = 1; j < N-1; j++)
         {
             for( int i = 1; i < M-1; i++ )
@@ -37,7 +38,6 @@ void laplace2d_serial( int rank, int iter_max, float tol )
             }
         }
 
-#pragma acc kernels
         for( int j = 1; j < N-1; j++)
         {
             for( int i = 1; i < M-1; i++ )
@@ -47,12 +47,12 @@ void laplace2d_serial( int rank, int iter_max, float tol )
         }
 
         //Periodic boundary conditions
-#pragma acc kernels
         for( int i = 1; i < M-1; i++ )
         {
                 Aref[0][i]     = Aref[(N-2)][i];
                 Aref[(N-1)][i] = Aref[1][i];
         }
+}
 
         if(rank == 0 && (iter % 100) == 0) printf("%5d, %0.6f\n", iter, error);
 

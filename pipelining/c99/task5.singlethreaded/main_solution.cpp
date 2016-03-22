@@ -18,7 +18,6 @@ int main( int argc, char **argv ) {
   int num_blocks, block_size;
   FILE *fp=fopen("image.pgm","wb");
   fprintf(fp,"P5\n%s\n%d %d\n%d\n","#comment",WIDTH,HEIGHT,MAX_COLOR);
-  double st = omp_get_wtime();
   int gpu, num_gpus;
 
   num_gpus = acc_get_num_devices(acc_device_nvidia);
@@ -34,6 +33,7 @@ int main( int argc, char **argv ) {
   if ( argc > 1 ) num_blocks = atoi(argv[1]);
   block_size = (HEIGHT/num_blocks)*WIDTH;
 
+  double st = omp_get_wtime();
 #ifdef _OPENACC
   for (gpu = 0; gpu < num_gpus; gpu++)
   {

@@ -1,5 +1,5 @@
 FC=pgfortran
-FCFLAGS=-fast -Minfo=all -ta=tesla:pin
+FCFLAGS=-fast -Minfo=all -ta=tesla:pinned
 
 mandelbrot.x: mandelbrot.o main.o
 	$(FC) $(FCFLAGS) -o $@ $^

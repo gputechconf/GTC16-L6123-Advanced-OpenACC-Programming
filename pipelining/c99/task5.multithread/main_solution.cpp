@@ -31,6 +31,7 @@ int main() {
   double st = omp_get_wtime();
 #pragma omp parallel num_threads(num_gpus)
 {
+  int queue = 1;
   int my_gpu = omp_get_thread_num();
   acc_set_device_num(my_gpu,acc_device_nvidia);
   printf("Thread %d is using GPU %d\n", my_gpu, acc_get_device_num(acc_device_nvidia));
@@ -40,14 +41,14 @@ int main() {
   for(int block = 0; block < num_blocks; block++ ) {
     int start = block * (HEIGHT/num_blocks),
         end   = start + (HEIGHT/num_blocks);
-#pragma acc update device(image[block*block_size:block_size]) async(block)
-#pragma acc parallel loop async(block)
+#pragma acc parallel loop async(queue)
     for(int y=start;y<end;y++) {
       for(int x=0;x<WIDTH;x++) {
         image[y*WIDTH+x]=mandelbrot(x,y);
       }
     }
-#pragma acc update self(image[block*block_size:block_size]) async(block)
+#pragma acc update self(image[block*block_size:block_size]) async(queue)
+    queue = (queue + 1) % 2; 
   }
 }
 #pragma acc wait

@@ -46,3 +46,4 @@ laplace2d.solution
 .xsession-x2go-errors
 NVIDIA_CUDA-7.5_Samples/
 timer.html
+nvvp_workspace/

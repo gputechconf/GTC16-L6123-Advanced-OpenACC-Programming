@@ -1,8 +1,8 @@
 #include <cstdio>
 #include <cstdlib>
 #include <fstream>
-#include "mandelbrot_solution.h"
 #include "constants.h"
+#include "mandelbrot.h"
 
 using namespace std;
 

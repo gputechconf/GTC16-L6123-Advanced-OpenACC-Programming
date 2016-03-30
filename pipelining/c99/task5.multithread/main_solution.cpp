@@ -3,12 +3,10 @@
 #include <fstream>
 #include <omp.h>
 #include <openacc.h>
+#include "mandelbrot.h"
 #include "constants.h"
 
 using namespace std;
-
-#pragma acc routine seq
-unsigned char mandelbrot(int Px, int Py);
 
 int main() {
   

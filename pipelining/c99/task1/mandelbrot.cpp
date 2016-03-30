@@ -1,11 +1,11 @@
 #include <cstdio>
 #include <cstdlib>
 #include <fstream>
+#include "mandelbrot.h"
 #include "constants.h"
 
 using namespace std;
 
-#pragma acc routine seq
 unsigned char mandelbrot(int Px, int Py) {
   double x0=xmin+Px*dx;
   double y0=ymin+Py*dy;

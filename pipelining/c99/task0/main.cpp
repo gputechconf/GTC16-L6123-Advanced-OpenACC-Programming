@@ -2,11 +2,10 @@
 #include <cstdlib>
 #include <fstream>
 #include <omp.h>
+#include "mandelbrot.h"
 #include "constants.h"
 
 using namespace std;
-
-unsigned char mandelbrot(int Px, int Py);
 
 int main() {
   

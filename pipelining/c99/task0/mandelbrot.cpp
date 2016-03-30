@@ -1,6 +1,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <fstream>
+#include "mandelbrot.h"
 #include "constants.h"
 
 using namespace std;

@@ -2,12 +2,10 @@
 #include <cstdlib>
 #include <fstream>
 #include <omp.h>
+#include "mandelbrot_solution.h"
 #include "constants.h"
 
 using namespace std;
-
-#pragma acc routine seq
-unsigned char mandelbrot(int Px, int Py);
 
 int main() {
   
